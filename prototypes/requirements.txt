@@ -1,0 +1,8 @@
+yfinance
+tradingview-screener
+feedparser
+requests
+matplotlib
+
+# tvdatafeed is not on PyPI — install separately if a block needs it:
+#   pip install git+https://github.com/StreamAlpha/tvdatafeed.git

@@ -1,0 +1,45 @@
+.DS_Store
+*.pem
+
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# next.js build output (all inside dashboard/)
+.next/
+/dashboard/out/
+/dashboard/build/
+/dashboard/coverage/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+!.env.local.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Python prototypes
+__pycache__/
+.venv/
+
+# dashboard/AGENTS.md IS tracked on purpose: `next dev` rewrites the managed block in it on
+# every start, and when the file is already there it only touches that file. If it were
+# missing (e.g. gitignored on a fresh clone), `next dev` would instead create a new
+# dashboard/CLAUDE.md — an untracked stray file for every student. The root CLAUDE.md
+# imports it with `@dashboard/AGENTS.md`.

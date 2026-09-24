@@ -1,0 +1,11 @@
+{
+  "items": [
+    { "title": "ISM Services PMI", "country": "USD", "date": "2026-09-09T14:00:00.000Z", "impact": "high", "forecast": "51.5", "previous": "50.1", "actual": "52.6" },
+    { "title": "German Factory Orders m/m", "country": "EUR", "date": "2026-09-09T06:00:00.000Z", "impact": "high", "forecast": "0.5%", "previous": "-0.8%", "actual": "-1.2%" },
+    { "title": "BOE Gov Bailey Speaks", "country": "GBP", "date": "2026-09-09T13:00:00.000Z", "impact": "high" },
+    { "title": "Core PPI m/m", "country": "USD", "date": "2026-09-10T12:30:00.000Z", "impact": "high", "forecast": "0.3%", "previous": "0.2%", "actual": "0.3%" },
+    { "title": "Main Refinancing Rate", "country": "EUR", "date": "2026-09-10T12:15:00.000Z", "impact": "high", "forecast": "2.65%", "previous": "2.40%", "actual": "2.65%" },
+    { "title": "ECB Press Conference", "country": "EUR", "date": "2026-09-10T12:45:00.000Z", "impact": "high" },
+    { "title": "PPI m/m", "country": "USD", "date": "2026-09-10T12:30:00.000Z", "impact": "high", "forecast": "0.4%", "previous": "0.0%" }
+  ]
+}

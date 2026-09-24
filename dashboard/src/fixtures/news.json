@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "title": "Markets edge higher as earnings season continues",
+      "link": "https://finance.yahoo.com/",
+      "source": "Yahoo Finance",
+      "publishedAt": "2026-09-04T08:15:00.000Z",
+      "tag": "Markets"
+    },
+    {
+      "title": "Central bank signals steady rates in latest meeting",
+      "link": "https://finance.yahoo.com/",
+      "source": "Yahoo Finance",
+      "publishedAt": "2026-09-04T07:00:00.000Z",
+      "tag": "Economy"
+    },
+    {
+      "title": "Renewables investment accelerates in Q2",
+      "link": "https://finance.yahoo.com/",
+      "source": "Yahoo Finance",
+      "publishedAt": "2026-09-04T05:00:00.000Z",
+      "tag": "Industries"
+    },
+    {
+      "title": "Tech sector leads weekly gains amid AI capex optimism",
+      "link": "https://finance.yahoo.com/",
+      "source": "Yahoo Finance",
+      "publishedAt": "2026-09-03T20:00:00.000Z",
+      "tag": "Technology"
+    },
+    {
+      "title": "Bond yields hold steady ahead of inflation data",
+      "link": "https://finance.yahoo.com/",
+      "source": "Yahoo Finance",
+      "publishedAt": "2026-09-03T14:00:00.000Z",
+      "tag": "Bonds"
+    }
+  ]
+}

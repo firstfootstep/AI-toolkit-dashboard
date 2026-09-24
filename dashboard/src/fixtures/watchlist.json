@@ -1,0 +1,9 @@
+{
+  "symbols": [
+    { "symbol": "ALP", "name": "Alpha Industries" },
+    { "symbol": "BET", "name": "Beta Systems" },
+    { "symbol": "GAM", "name": "Gamma Solutions" },
+    { "symbol": "DEL", "name": "Delta Holdings" },
+    { "symbol": "EPS", "name": "Epsilon Corp" }
+  ]
+}

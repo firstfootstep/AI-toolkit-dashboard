@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/*
+ * Wiki Market Design System — Editorial Swiss tokens.
+ * Single warm-ivory theme (no dark mode) per DESIGN.md. Don't add new raw
+ * colors/shadows/radii in components — extend these tokens instead.
+ */
+:root {
+  --color-canvas: #f4f2eb;
+  --color-paper: #fffefa;
+  --color-ink: #17231e;
+  --color-ink-soft: #3a453f;
+  --color-muted: #66736c;
+  --color-primary: #12382b;
+  --color-primary-bright: #1d7252;
+  --color-lime: #d9e99d;
+  --color-coral: #d86d4d;
+  --color-line: rgba(26, 54, 42, 0.13);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --shadow-sm: 0 1px 2px rgba(23, 35, 30, 0.06), 0 1px 1px rgba(23, 35, 30, 0.04);
+  --shadow-md: 0 12px 24px rgba(23, 35, 30, 0.1), 0 4px 8px rgba(23, 35, 30, 0.06);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-ui: var(--font-inter), var(--font-anuphan), system-ui, sans-serif;
+  --font-body: var(--font-anuphan), system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-canvas: var(--color-canvas);
+  --color-paper: var(--color-paper);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-muted: var(--color-muted);
+  --color-primary: var(--color-primary);
+  --color-primary-bright: var(--color-primary-bright);
+  --color-lime: var(--color-lime);
+  --color-coral: var(--color-coral);
+  --color-line: var(--color-line);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+
+  --font-sans: var(--font-body);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-coral);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
