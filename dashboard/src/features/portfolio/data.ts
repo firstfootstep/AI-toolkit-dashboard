@@ -9,7 +9,7 @@ import { getTradingJournalStats } from "@/lib/tradingJournal";
  *
  * Derived from the same master journal (src/fixtures/trade-setups.csv, via
  * getTradingJournalStats()) that drives the Portfolio page, so the
- * Dashboard's "Portfolio" card and Reports never disagree with it. There is
+ * Dashboard's "Portfolio" card never disagrees with it. There is
  * no margin/leverage concept in that journal, so buying power is just cash
  * on hand; day change comes from the last two days of the NAV series
  * instead of a live intraday feed.

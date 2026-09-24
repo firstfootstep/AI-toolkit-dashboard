@@ -12,7 +12,7 @@ import { getEarningsHistory } from "@/lib/earnings";
 import { getSymbolFundamentals } from "@/lib/symbolFundamentals";
 
 // Reads research-briefs/ fresh on every request so a brief the
-// symbol-research-agent just wrote shows up without restarting the server.
+// earnings-preview-agent just wrote shows up without restarting the server.
 export const dynamic = "force-dynamic";
 
 export default async function ResearchPage() {
@@ -56,8 +56,8 @@ export default async function ResearchPage() {
             <ComingSoon
               icon={<Search size={28} />}
               title="No research briefs yet"
-              description="Type a symbol above, run symbol-research-agent from Claude Code, or run the earnings-preview-th skill (/earnings-preview-th) — all three land in research-briefs/ and show up here."
-              hint='Try: "NVDA" in the box above, or "Use symbol-research-agent to research NVDA." in Claude Code.'
+              description="Type a symbol above, run earnings-preview-agent from Claude Code, or run the earnings-preview-th skill (/earnings-preview-th) — all three land in research-briefs/ and show up here."
+              hint='Try: "NVDA" in the box above, or "Use earnings-preview-agent to research NVDA." in Claude Code.'
             />
           </Card>
         ) : (

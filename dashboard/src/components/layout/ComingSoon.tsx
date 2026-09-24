@@ -2,9 +2,10 @@ import { ReactNode } from "react";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 /**
- * Consistent stub pattern for menu pages that are scaffolded but not yet
- * built out (Research, Reports, Alerts). Keeps every page in the sidebar
- * navigable and visually consistent instead of a broken link.
+ * Consistent stub pattern for a menu page that is scaffolded but not yet
+ * built out (see the add-dashboard-page skill). Keeps every page in the
+ * sidebar navigable and visually consistent instead of a broken link. Every
+ * shipped page is built now; Research reuses this as its empty state.
  */
 export function ComingSoon({
   icon,

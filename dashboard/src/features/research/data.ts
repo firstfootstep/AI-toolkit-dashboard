@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-// symbol-research-agent (.claude/agents/symbol-research-agent.md) writes one
+// earnings-preview-agent (.claude/agents/earnings-preview-agent.md) writes one
 // markdown file per ticker here. This just reads whatever's on disk — there's
 // no "never break live" fallback tier because there's no external call, only
 // a local folder that's empty until a student runs the agent.

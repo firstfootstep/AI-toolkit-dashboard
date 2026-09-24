@@ -22,8 +22,8 @@ Markets".
   generic enough to reuse elsewhere with different data, its primitive goes here.
 - `dashboard/src/features/<feature>/` = everything that knows about `Quote`, `Holding`,
   `PortfolioSummary`, etc. Your new widget's component and any data-shaping helper go here,
-  next to the feature it belongs to (`portfolio`, `watchlist`, `markets`, `news`, `alerts`,
-  `settings`).
+  next to the feature it belongs to (`portfolio`, `watchlist`, `markets`, `news`, `scanner`,
+  `research`, `settings`, ...).
 
 Don't add a new top-level folder for one widget — extend the existing feature folder.
 
@@ -70,7 +70,7 @@ Don't add a new top-level folder for one widget — extend the existing feature 
    in the (async, server) page component as props — widgets themselves stay presentational
    where possible. Client-only widgets (using hooks, `localStorage`, drag/drop) need
    `"use client"` at the top, matching the existing pattern in `ImportJournal.tsx` and
-   `AlertsPanel.tsx`.
+   `SettingsPanel.tsx`.
 
 6. **Verify** in `npm run dev` (inside `dashboard/`): check the widget in both the `live` and forced-`mock`
    states (temporarily break the fetch URL, or disconnect network, to confirm the fallback

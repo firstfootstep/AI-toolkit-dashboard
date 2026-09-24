@@ -7,7 +7,7 @@ import { dateKeyInCalendarZone } from "@/lib/economicCalendar";
 export const dynamic = "force-dynamic";
 
 // The Portfolio page's "วิเคราะห์พฤติกรรมการเทรด" button. Like
-// /api/market-summary and /api/legend-scanner, this calls Claude live (real
+// /api/market-summary and /api/research, this calls Claude live (real
 // usage per request) but with no tools — see tradingCoachAgent.ts's doc
 // comment for why.
 export async function POST() {

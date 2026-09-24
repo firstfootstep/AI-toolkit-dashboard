@@ -7,7 +7,7 @@ description: คำนวณตัวชี้วัดพอร์ตที่�
 
 Unlike `add-news-feed`/`add-price-feed`, this isn't fetching anything external — `dashboard/src/fixtures/trade-setups.csv`
 (~36 mock trades) is already there, generated once for the course. It's the ONE master journal
-the whole Portfolio page (and the Dashboard/Reports summaries) already derives from via
+the whole Portfolio page (and the Dashboard's Portfolio card) already derives from via
 `getTradingJournalStats()` in `dashboard/src/lib/tradingJournal.ts` — reuse that function's output rather
 than re-parsing the CSV, so a new metric never drifts out of sync with the rest of the app. This
 skill turns that already-computed state into a specific derived number or breakdown. It's a

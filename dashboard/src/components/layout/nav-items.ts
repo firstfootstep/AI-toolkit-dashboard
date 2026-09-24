@@ -32,8 +32,5 @@ export const navItems: NavItem[] = [
   { label: "Sector Rotation", href: "/sector-rotation", icon: Rotate3d },
   { label: "Research", href: "/research", icon: Search },
   { label: "Portfolio", href: "/portfolio", icon: Briefcase },
-  // Hidden per request — keep routes/code intact, just not in the sidebar.
-  // { label: "Reports", href: "/reports", icon: FileBarChart },
-  // { label: "Alerts", href: "/alerts", icon: Bell },
   { label: "Settings", href: "/settings", icon: Settings },
 ];

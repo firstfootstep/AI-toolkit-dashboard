@@ -24,7 +24,6 @@ export function SettingsPanel() {
 
   function clearLocalData() {
     localStorage.removeItem("investview.tradingJournal");
-    localStorage.removeItem("investview.alerts");
     setCleared(true);
     setTimeout(() => setCleared(false), 2000);
   }
@@ -77,13 +76,13 @@ export function SettingsPanel() {
 
       <Card title="Local data">
         <p className="mb-3 text-sm text-muted">
-          Clears your imported trading journal and price alerts from this browser&apos;s local storage.
+          Clears your imported trading journal from this browser&apos;s local storage.
         </p>
         <button
           onClick={clearLocalData}
           className="flex items-center gap-1.5 rounded-[var(--radius-sm)] border border-coral/30 px-3 py-1.5 text-sm font-medium text-coral transition-colors duration-200 hover:bg-coral/10"
         >
-          <Trash2 size={14} /> Clear imported journal &amp; alerts
+          <Trash2 size={14} /> Clear imported journal
         </button>
         {cleared && (
           <span className="ml-3">
