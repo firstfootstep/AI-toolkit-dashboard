@@ -1,5 +1,5 @@
 // Generates src/fixtures/trade-setups.csv — the ONE master trading journal
-// every number on the Portfolio page (and the Dashboard/Reports summaries)
+// every number on the Portfolio page (and the Dashboard's Portfolio card)
 // is derived from, via getTradingJournalStats() in src/lib/tradingJournal.ts.
 // Each row here is one full trade idea — entry setup type, RS rating and
 // relative volume at entry, position sizing, and the outcome (plus exit
