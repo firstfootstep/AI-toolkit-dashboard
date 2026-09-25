@@ -20,3 +20,6 @@ or arbitrary Tailwind color class in a component. Reuse `dashboard/src/component
 (`Card`, `Badge`, `Stat`, `Sparkline`, `EmptyState`) instead of building new ad-hoc markup —
 that's what keeps every menu looking like the same app instead of nine different demos
 stitched together.
+
+# ข้อควรปฏิบัติ
+- ตอบ user เป็นภาษาไทย
