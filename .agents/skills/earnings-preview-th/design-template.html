@@ -1,0 +1,315 @@
+<!--
+  FIXED DESIGN TEMPLATE for earnings-preview-th
+  ================================================
+  Locked in 2026-09-09 at the user's request, based on the KO Q2 FY26
+  Earnings Review artifact (the one the user said they liked best).
+  Amended 2026-09-10: the user asked for the accent color to vary per
+  company again, while everything else in this template — layout,
+  typography, component structure, chart geometry rules — stays locked.
+
+  Rule: every future earnings-preview-th document (preview OR review, any
+  ticker) reuses this exact CSS system verbatim — same CSS variable
+  NAMES, same class names, same component structure, same layout — with
+  ONE exception: the --accent / --accent-ink / --accent-soft trio (and
+  their dark-mode redefinitions) is re-picked per ticker, see "Per-ticker
+  accent color" below. Do NOT redesign the layout, typography, spacing,
+  component skeleton, or any other token per ticker. This overrides the
+  "Design" section of SKILL.md, which called for a fresh bespoke design
+  pass each time; that instruction is superseded by this template.
+
+  Per-ticker accent color:
+  - Pick ONE accent hue per company, ideally evoking the company's own
+    brand color (e.g. a company with a well-known red/blue/green brand
+    mark) without literally copying their exact hex — keep it inside this
+    template's tonal range (muted/desaturated, editorial-ledger feel, NOT
+    a bright saturated brand color) so it still reads as part of the same
+    document family. A company with no obvious brand color: pick a hue
+    that fits its sector mood (e.g. cool blue-grey for industrials, warm
+    amber for energy) rather than defaulting back to the old maroon.
+  - Derive all three light-mode values from that one hue: --accent (the
+    solid/saturated version used for lines, ticks, the eyebrow dot),
+    --accent-ink (a darker shade of the same hue, used for text-on-soft),
+    --accent-soft (a very light tint of the same hue, used as a
+    background fill). Then derive the three dark-mode counterparts
+    (:root prefers-color-scheme dark, and :root[data-theme="dark"] — keep
+    both blocks identical to each other as before) the same way this
+    template's original maroon did: --accent lightens/desaturates for
+    dark backgrounds, --accent-ink becomes a light tint, --accent-soft
+    becomes a dark tint. Sanity-check contrast (--accent-ink on
+    --accent-soft, and white text on --accent for the center ecosystem
+    node) stays readable in both themes before finalizing.
+  - --positive/--positive-soft, --negative/--negative-soft, and --gold/
+    --gold-soft stay FIXED across every ticker (green/rust/amber) — they
+    carry fixed meaning (beat/miss, competitor edges, price-target ticks)
+    and must not be repurposed as the per-ticker brand color.
+  - Every other token (--bg, --surface, --surface-2, --ink, --ink-soft,
+    --muted, --border, --border-strong, --shadow) stays FIXED verbatim.
+
+  What varies per document: the accent hue (per above), plus the
+  content — company name, numbers, chart data/coordinates (still
+  computed fresh per company's real pulled data, never copied from a
+  previous ticker), section text, ecosystem nodes, footer sources. The
+  layout must stay the same so documents are still visually comparable
+  side by side as one family — only the accent color signals which
+  company you're looking at.
+
+  How to use this file:
+  1. Copy this whole file as the starting point for the new ticker's HTML.
+  2. Keep every CSS variable name, class name, and component skeleton
+     (masthead, statrow, sec-head/sec-num, tblwrap/table, chartcard,
+     eco-node2, scen/scenario-grid, catlist/cat, revision-row, pt-legend,
+     zoom-overlay) exactly as-is.
+  3. Re-derive --accent/--accent-ink/--accent-soft (light + dark) for
+     this ticker per "Per-ticker accent color" above. Leave every other
+     variable at this file's values.
+  4. Replace only the <title>, the content inside .wrap, and chart
+     coordinates/data. Recompute every chart's coordinates from that
+     ticker's own real pulled numbers per the parent skill's data-pass
+     and SVG-hygiene rules — never reuse a previous ticker's coordinates.
+  5. Keep both light and dark theme blocks (:root, prefers-color-scheme,
+     [data-theme="dark"]) intact in structure — only their accent trio
+     changes per step 3.
+  6. If a new component type is genuinely needed for some ticker (one the
+     KO document didn't need), design it in the same visual language
+     (same border-radius scale, same shadow token, same font roles) rather
+     than inventing a new one from scratch — but don't add it unless the
+     content actually requires it.
+-->
+<title>[TICKER] Earnings Ledger</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f2;
+  --surface:#ffffff;
+  --surface-2:#efece7;
+  --ink:#221614;
+  --ink-soft:#4a3c39;
+  --muted:#7a6a66;
+  --border:#e2dcd6;
+  --border-strong:#cabfb8;
+  /* PER-TICKER: re-derive this trio (light mode) from the company's own hue — see header comment */
+  --accent:#9b2b3c;
+  --accent-ink:#5c1420;
+  --accent-soft:#f3e2e4;
+  --positive:#2f7a4f;
+  --positive-soft:#e5f2e9;
+  --negative:#ae4a2f;
+  --negative-soft:#f6e7e1;
+  --gold:#a97a1f;
+  --gold-soft:#f4ecd8;
+  --shadow: 0 1px 2px rgba(34,22,20,0.05), 0 8px 24px -12px rgba(34,22,20,0.14);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#181211;
+    --surface:#211918;
+    --surface-2:#271e1c;
+    --ink:#f1e9e7;
+    --ink-soft:#cdbdb9;
+    --muted:#9c8985;
+    --border:#3a2e2b;
+    --border-strong:#4c3c38;
+    /* PER-TICKER: re-derive this trio (dark mode, system) from the same hue as the light-mode trio above */
+    --accent:#e0687a;
+    --accent-ink:#f6ccd4;
+    --accent-soft:#3a1e23;
+    --positive:#5cbb84;
+    --positive-soft:#16281e;
+    --negative:#e08662;
+    --negative-soft:#2b1a14;
+    --gold:#d9ab5c;
+    --gold-soft:#2a2213;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#181211;
+  --surface:#211918;
+  --surface-2:#271e1c;
+  --ink:#f1e9e7;
+  --ink-soft:#cdbdb9;
+  --muted:#9c8985;
+  --border:#3a2e2b;
+  --border-strong:#4c3c38;
+  /* PER-TICKER: re-derive this trio (dark mode, forced via [data-theme="dark"]) — keep identical to the block above */
+  --accent:#e0687a;
+  --accent-ink:#f6ccd4;
+  --accent-soft:#3a1e23;
+  --positive:#5cbb84;
+  --positive-soft:#16281e;
+  --negative:#e08662;
+  --negative-soft:#2b1a14;
+  --gold:#d9ab5c;
+  --gold-soft:#2a2213;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+}
+
+*{box-sizing:border-box;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans Thai","IBM Plex Sans",sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 80px;}
+
+h1,h2,h3{font-family:"Fraunces","IBM Plex Sans Thai",serif;text-wrap:balance;color:var(--ink);margin:0;}
+.mono{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;}
+.tabnum{font-variant-numeric:tabular-nums;}
+
+.masthead{border-bottom:1px solid var(--border-strong);padding-bottom:28px;margin-bottom:28px;}
+.eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;}
+h1{font-size:clamp(30px,5vw,42px);font-weight:700;line-height:1.12;letter-spacing:-0.01em;}
+.subtitle{color:var(--ink-soft);font-size:15.5px;max-width:66ch;margin-top:14px;}
+.subtitle b{color:var(--ink);font-weight:600;}
+
+.statrow{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:24px;}
+.stat{background:var(--surface);padding:14px 14px;min-width:0;}
+.stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px;}
+.stat .v{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:17px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.stat .v.eps-stat{font-size:13px;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.35;}
+@media (max-width:700px){.statrow{grid-template-columns:repeat(2,1fr);}}
+
+section{margin-top:56px;}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:10px;}
+.sec-num{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:13px;color:var(--accent);background:var(--accent-soft);border-radius:5px;padding:2px 8px;}
+.sec-head h2{font-size:22px;font-weight:600;}
+p{margin:0 0 12px;color:var(--ink-soft);}
+.lede{color:var(--ink);}
+.cap{font-size:13px;color:var(--muted);margin-top:8px;}
+.cap b{color:var(--ink-soft);}
+
+.tag{display:inline-flex;align-items:center;gap:5px;font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:11px;font-weight:600;letter-spacing:0.02em;padding:2px 8px;border-radius:5px;text-transform:uppercase;}
+.tag.beat{background:var(--positive-soft);color:var(--positive);}
+.tag.miss{background:var(--negative-soft);color:var(--negative);}
+.tag.confirmed{background:var(--accent-soft);color:var(--accent-ink);}
+.tag.reported{background:var(--gold-soft);color:var(--gold);}
+.tag.inferred{background:var(--surface-2);color:var(--muted);border:1px dashed var(--border-strong);}
+
+.tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--surface);}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px;}
+th,td{text-align:right;padding:10px 14px;border-bottom:1px solid var(--border);white-space:nowrap;}
+th:first-child,td:first-child{text-align:left;white-space:normal;}
+th{font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);font-weight:600;background:var(--surface-2);}
+tr:last-child td{border-bottom:none;}
+td.num{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;}
+
+.chartcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 20px 14px;box-shadow:var(--shadow);}
+.chartcard h3{font-size:15px;font-weight:600;margin-bottom:2px;}
+.chart-sub{font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+svg.chart{width:100%;height:auto;display:block;cursor:zoom-in;}
+svg text{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;}
+
+.legend-row{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:12px;font-size:12.5px;color:var(--ink-soft);}
+.legend-row .li{display:flex;align-items:center;gap:7px;}
+.swatch{width:18px;height:0;border-top-width:2.5px;border-top-style:solid;display:inline-block;}
+.swatch.dashed{border-top-style:dashed;}
+
+.pt-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.pt-item{flex:1;min-width:120px;background:var(--surface-2);border-radius:8px;padding:10px 12px;}
+.pt-item .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.03em;display:flex;align-items:center;gap:6px;}
+.pt-item .v{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:15px;font-weight:600;margin-top:3px;}
+.dotcolor{width:8px;height:8px;border-radius:50%;display:inline-block;}
+
+.eco-node2{
+  font-family:"IBM Plex Sans Thai",sans-serif;
+  background:var(--surface);
+  border:1px solid var(--border-strong);
+  border-radius:8px;
+  padding:7px 9px;
+  height:100%;
+  display:flex;flex-direction:column;justify-content:center;gap:2px;
+  box-shadow:var(--shadow);
+}
+.eco-node2 .t{font-weight:600;font-size:12.5px;color:var(--ink);line-height:1.2;}
+.eco-node2 .s{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:10px;color:var(--muted);line-height:1.3;}
+.eco-node2.center{background:var(--accent);border-color:var(--accent);}
+.eco-node2.center .t{color:#fff;font-size:15px;}
+.eco-node2.center .s{color:var(--accent-soft);}
+
+.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media (max-width:700px){.scenario-grid{grid-template-columns:1fr;}}
+.scen{border:1px solid var(--border);border-radius:10px;padding:16px;background:var(--surface);}
+.scen.bull{border-top:3px solid var(--positive);}
+.scen.base{border-top:3px solid var(--gold);}
+.scen.bear{border-top:3px solid var(--negative);}
+.scen h4{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;}
+.scen.bull h4{color:var(--positive);}
+.scen.base h4{color:var(--gold);}
+.scen.bear h4{color:var(--negative);}
+.scen ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-soft);}
+.scen li{margin-bottom:6px;}
+
+.catlist{display:flex;flex-direction:column;gap:10px;}
+.cat{display:flex;gap:14px;border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:var(--surface);}
+.cat .n{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;color:var(--accent);font-weight:600;font-size:13px;flex-shrink:0;}
+.cat .body b{color:var(--ink);}
+.cat .body{font-size:13.8px;color:var(--ink-soft);}
+
+.ov-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:start;}
+@media (max-width:700px){.ov-grid{grid-template-columns:1fr;}}
+.factbox{background:var(--surface-2);border-radius:10px;padding:14px 16px;font-size:13px;}
+.factbox dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0;}
+.factbox dt{color:var(--muted);}
+.factbox dd{margin:0;font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;color:var(--ink);text-align:right;}
+
+footer{margin-top:64px;border-top:1px solid var(--border-strong);padding-top:22px;font-size:12.5px;color:var(--muted);}
+footer h4{font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-soft);margin-bottom:8px;font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;}
+footer .srcgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin-bottom:18px;}
+@media (max-width:600px){footer .srcgrid{grid-template-columns:1fr;}}
+footer .disclaimer{margin-top:16px;padding-top:14px;border-top:1px dashed var(--border-strong);}
+
+.zoom-overlay{position:fixed;inset:0;background:rgba(20,12,10,0.72);display:flex;align-items:center;justify-content:center;z-index:999;padding:32px;}
+.zoom-overlay[hidden]{display:none;}
+.zoom-overlay-inner{background:var(--surface);border-radius:12px;padding:24px;width:min(1100px,92vw);max-height:88vh;overflow:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.zoom-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-size:16px;cursor:pointer;line-height:1;}
+#zoomTarget{width:100%;}
+#zoomTarget svg{width:100%;height:auto;display:block;cursor:default;}
+
+.revision-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.revision{flex:1;min-width:140px;background:var(--surface-2);border-radius:8px;padding:10px 12px;}
+.revision .who{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.03em;}
+.revision .move{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:14px;font-weight:600;margin-top:3px;}
+</style>
+
+<div class="wrap">
+  <!-- [CONTENT GOES HERE — masthead, statrow, sections 0-7, footer, zoom overlay + script]
+       Follow the same section skeleton the parent SKILL.md defines (0 overview/ecosystem,
+       1 context/actual-vs-consensus, 2 beat/miss history, 3 analyst sentiment, 4 key
+       metrics, 5 competitive landscape, 6 scenario/what-changed, 7 catalysts, footer) — see
+       the KO Q2 FY26 Earnings Review artifact (published 2026-09-09) as the full worked
+       reference for exact markup patterns per component. -->
+</div>
+
+<div class="zoom-overlay" id="zoomOverlay" hidden>
+  <div class="zoom-overlay-inner">
+    <button class="zoom-close" onclick="closeZoom()">✕</button>
+    <div id="zoomTarget"></div>
+  </div>
+</div>
+
+<script>
+function openZoom(id){
+  const src = document.getElementById(id);
+  const target = document.getElementById('zoomTarget');
+  target.innerHTML = '';
+  target.appendChild(src.cloneNode(true));
+  document.getElementById('zoomOverlay').hidden = false;
+}
+function closeZoom(){
+  document.getElementById('zoomOverlay').hidden = true;
+}
+document.getElementById('zoomOverlay').addEventListener('click', function(e){
+  if(e.target === this) closeZoom();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeZoom();
+});
+</script>
