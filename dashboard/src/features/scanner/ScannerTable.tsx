@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, Search, X, Zap } from "lucide-react";
 import { formatCompact, formatCurrency, formatPercent } from "@/lib/format";
 import type { ScannerRow } from "@/features/scanner/types";
+import { VduPanel } from "@/features/scanner/VduPanel";
 
 type SortKey =
   | "symbol"
@@ -231,7 +232,11 @@ const EXTRA_COLUMNS: Record<PresetKey, ExtraColumn[]> = {
   ],
 };
 
-export function ScannerTable({ rows }: { rows: ScannerRow[] }) {
+export function ScannerTable({ rows, market }: { rows: ScannerRow[]; market: string }) {
+  // "VDU" is not one of PRESETS: it needs daily bars per symbol, so it's an
+  // on-demand server scan (VduPanel) that replaces the table instead of
+  // filtering `rows` — see src/lib/vduScan.ts.
+  const [vduActive, setVduActive] = useState(false);
   const [query, setQuery] = useState("");
   const [sectors, setSectors] = useState<Set<string>>(new Set());
   const [ranges, setRanges] = useState<Record<string, RangeValue>>({});
@@ -375,19 +380,30 @@ export function ScannerTable({ rows }: { rows: ScannerRow[] }) {
               key={p.key}
               label={p.label}
               count={presetCounts[p.key]}
-              active={preset === p.key}
-              onClick={() => activatePreset(preset === p.key ? "all" : p.key)}
+              active={!vduActive && preset === p.key}
+              onClick={() => {
+                setVduActive(false);
+                activatePreset(preset === p.key ? "all" : p.key);
+              }}
             />
           ))}
+          <PresetTab label="VDU" active={vduActive} onClick={() => setVduActive(true)} />
           <PresetTab
             label="Screener (Universe)"
             count={presetCounts.all}
-            active={preset === "all"}
-            onClick={() => activatePreset("all")}
+            active={!vduActive && preset === "all"}
+            onClick={() => {
+              setVduActive(false);
+              activatePreset("all");
+            }}
           />
         </div>
       </div>
 
+      {vduActive ? (
+        <VduPanel market={market} />
+      ) : (
+      <>
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5">
           <Search size={14} className="text-muted" aria-hidden />
@@ -550,6 +566,8 @@ export function ScannerTable({ rows }: { rows: ScannerRow[] }) {
           </tbody>
         </table>
       </div>
+      </>
+      )}
     </div>
   );
 }
@@ -676,7 +694,7 @@ function PresetTab({
   onClick,
 }: {
   label: string;
-  count: number;
+  count?: number;
   active: boolean;
   onClick: () => void;
 }) {
@@ -692,14 +710,16 @@ function PresetTab({
       )}
     >
       {label}
-      <span
-        className={clsx(
-          "rounded-full px-2 py-0.5 text-xs font-bold",
-          active ? "bg-paper/20 text-paper" : "bg-ink/6 text-muted"
-        )}
-      >
-        {count}
-      </span>
+      {count !== undefined && (
+        <span
+          className={clsx(
+            "rounded-full px-2 py-0.5 text-xs font-bold",
+            active ? "bg-paper/20 text-paper" : "bg-ink/6 text-muted"
+          )}
+        >
+          {count}
+        </span>
+      )}
     </button>
   );
 }

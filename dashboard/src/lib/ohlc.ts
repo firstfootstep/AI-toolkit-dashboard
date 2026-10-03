@@ -9,10 +9,10 @@ const CACHE_TTL_MS = 5 * 60_000;
 // returns full open/high/low/close arrays, not just close — this is the
 // keyless fallback tier for candlesticks when scanner-service's TradingView
 // tier is unreachable or no exchange was given.
-async function fetchYahooOhlc(symbol: string): Promise<OhlcBar[]> {
+export async function fetchYahooOhlc(symbol: string, range = "6mo", adjusted = false): Promise<OhlcBar[]> {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(
     symbol
-  )}?range=6mo&interval=1d`;
+  )}?range=${range}&interval=1d`;
 
   const res = await fetchWithTimeout(url, 4000, {
     headers: { "User-Agent": "Mozilla/5.0 (compatible; InvestViewDashboard/1.0)" },
@@ -30,14 +30,23 @@ async function fetchYahooOhlc(symbol: string): Promise<OhlcBar[]> {
   const low: (number | null)[] = q.low ?? [];
   const close: (number | null)[] = q.close ?? [];
   const volume: (number | null)[] = q.volume ?? [];
+  // Split/dividend-adjusted close — when `adjusted`, O/H/L/C are all scaled by
+  // adjclose/close (what yfinance's auto_adjust does); volume stays raw.
+  const adjClose: (number | null)[] = result.indicators?.adjclose?.[0]?.adjclose ?? [];
+  const factor = (i: number): number => {
+    const a = adjClose[i];
+    const c = close[i];
+    return adjusted && typeof a === "number" && typeof c === "number" && c > 0 ? a / c : 1;
+  };
+  const scale = (v: number | null, i: number) => (typeof v === "number" ? v * factor(i) : v);
 
   const bars = timestamps
     .map((t, i) => ({
       time: new Date(t * 1000).toISOString().slice(0, 10),
-      open: open[i],
-      high: high[i],
-      low: low[i],
-      close: close[i],
+      open: scale(open[i], i),
+      high: scale(high[i], i),
+      low: scale(low[i], i),
+      close: scale(close[i], i),
       volume: volume[i] ?? 0,
     }))
     .filter(

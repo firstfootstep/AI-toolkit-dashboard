@@ -69,7 +69,7 @@ export default async function ScannerPage({
               this page fetches fresh, unlike Watchlist/Market News) — filtering and sorting below happens
               instantly in your browser, no re-fetch per keystroke.
             </p>
-            <ScannerTable rows={rows} />
+            <ScannerTable rows={rows} market={market} />
           </Card>
         )}
       </main>
